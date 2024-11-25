@@ -1,4 +1,4 @@
-//import React from 'react'; // Uncomment this if not already imported
+import React from 'react'; // Uncomment this if not already imported
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';

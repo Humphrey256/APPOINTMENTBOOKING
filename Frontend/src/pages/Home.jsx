@@ -1,4 +1,4 @@
-//import React from 'react'
+import React from 'react'
 
 import icon01 from '../assets/images/logo.webp'
 import icon02 from '../assets/images/imageicon2.jpg'

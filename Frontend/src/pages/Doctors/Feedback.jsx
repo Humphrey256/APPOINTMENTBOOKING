@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { React, useState } from 'react';
 import { formatDate } from '../../utils/formatDate';
 import { AiFillStar } from 'react-icons/ai';
 import FeedbackForm from './FeedbackForm';

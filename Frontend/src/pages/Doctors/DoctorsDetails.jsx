@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { React, useState } from 'react'
 import doctorImg from '../../assets/images/doctor1.png'
 import starIcon from '../../assets/images/eagle.jpg'
 import DoctorAbout from './DoctorAbout'

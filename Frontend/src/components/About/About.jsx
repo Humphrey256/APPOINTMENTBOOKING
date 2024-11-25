@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-
+import React from 'react'
 import aboutImg from '../../assets/images/imageicon.jpg';
 //import aboutCardImg from '../../assets/images/image8.jpg';
 

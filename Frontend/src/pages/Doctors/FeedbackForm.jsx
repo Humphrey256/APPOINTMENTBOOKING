@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { React, useState } from 'react';
 import { AiFillStar } from 'react-icons/ai'; // Uncommented and added import
 
 const FeedbackForm = () => {
