@@ -1,3 +1,4 @@
+import React from 'react'
 import './App.css';
 import Layout from "./layout/layout"; // Ensure the import path is correct
 import { BrowserRouter } from 'react-router-dom';
