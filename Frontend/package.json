@@ -21,7 +21,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "start": "vite",
+    "start": "vite preview",
     "build": "vite build",
     "preview": "vite preview",
     "test": "echo \"Testing not configured\" && exit 1",
