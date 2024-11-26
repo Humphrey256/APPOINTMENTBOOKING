@@ -43,7 +43,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 //app.use(cors(corsOptions));
 app.use(cors({
-    origin: 'http://localhost:3000',  // Allowing front-end origin
+    origin: 'https://appointmentbooking-4.onrender.com',  // Allowing front-end origin
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],  // Allowing required HTTP methods
     allowedHeaders: ['Content-Type', 'Authorization'],  // Allowing necessary headers
 }));

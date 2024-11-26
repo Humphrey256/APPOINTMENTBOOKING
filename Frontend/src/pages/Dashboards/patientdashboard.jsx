@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import io from 'socket.io-client'; // Import socket.io-client
@@ -62,6 +62,7 @@ const PatientDashboard = () => {
 
     // Set patient ID and check token on component mount
     useEffect(() => {
+        console.log('PatientDashboard component loaded');
         const token = localStorage.getItem('token');
         const userId = localStorage.getItem('userId'); // Retrieve userId from localStorage
 

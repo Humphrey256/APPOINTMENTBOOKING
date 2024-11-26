@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaUserCircle } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,6 +28,7 @@ const DoctorDashboard = () => {
     ];
 
     useEffect(() => {
+        console.log('DoctorDashboard component loaded');
         fetchAppointments();
         fetchDoctorProfile();
         fetchSlots(); // Fetch the slots available for the doctor

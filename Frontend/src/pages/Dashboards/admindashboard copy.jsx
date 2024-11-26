@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -7,6 +7,7 @@ const AdminDashboard = () => {
     const [patients, setPatients] = useState([]);
     const [appointments, setAppointments] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
+    console.log('AdminDashboard component loaded');
 
     // Fetch all doctors, patients, and appointments
     const fetchDoctors = async () => {
