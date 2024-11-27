@@ -13,7 +13,7 @@ import authRoute from "./Routes/authRoute.js"; // Ensure this path is correct
 import userRoute from "./Routes/userRoute.js";
 import doctorRoute from "./Routes/doctorRoute.js";
 import reviewRoute from "./Routes/reviewRoute.js";
-import bookingRoutes from './Routes/bookingRoute.js'; // Adjust the path as necessary
+import bookingRoutes from './Routes/bookingRoute.js'; 
 
 // Config
 dotenv.config();
