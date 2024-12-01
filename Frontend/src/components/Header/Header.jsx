@@ -50,11 +50,31 @@ const Header = () => {
     };
 
     return (
-        <header className="header flex items-center" ref={headerRef}>
+        <header
+            className="header flex items-center"
+            ref={headerRef}
+            style={{
+                backgroundColor: '#1e3a8a', // Blue background
+                height: '80px', // Header height
+                display: 'flex',
+                alignItems: 'center',
+                position: 'sticky',
+                top: '0',
+                zIndex: '100',
+            }}
+        >
             <div className="container">
                 <div className="flex items-center justify-between">
                     <div>
-                        <img src={logo} alt="" className="logo" />
+                        {/* Logo with height matching the header */}
+                        <img
+                            src={logo}
+                            alt="Logo"
+                            style={{
+                                height: '80px', // Match the header height
+                                objectFit: 'contain',
+                            }}
+                        />
                     </div>
                     <div className="navigation" ref={menuRef} onClick={toggleMenu}>
                         <ul className="menu flex items-center gap-[2.7rem]">
@@ -70,30 +90,34 @@ const Header = () => {
                             ))}
                         </ul>
                     </div>
-                    <div className='flex items-center gap-4'>
-                        <div className='hidden'>
-                            <Link to='/'>
-                                <figure className='w-[35px] h-[35px] rounded-full cursor-pointer'>
-                                    <img src={userImg} className='w-full rounded-full' alt="" />
+                    <div className="flex items-center gap-4">
+                        <div className="hidden">
+                            <Link to="/">
+                                <figure className="w-[35px] h-[35px] rounded-full cursor-pointer">
+                                    <img
+                                        src={userImg}
+                                        className="w-full rounded-full"
+                                        alt="User Avatar"
+                                    />
                                 </figure>
                             </Link>
                         </div>
                         {!isAuthenticated ? (
-                            <Link to='/login'>
-                                <button className='bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]'>
+                            <Link to="/login">
+                                <button className="bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]">
                                     Login
                                 </button>
                             </Link>
                         ) : (
                             <button
                                 onClick={handleLogout}
-                                className='bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]'
+                                className="bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]"
                             >
                                 Logout
                             </button>
                         )}
-                        <span className='md:hidden' onClick={toggleMenu}>
-                            <BiMenu className='w-6 h-6 cursor-pointer' />
+                        <span className="md:hidden" onClick={toggleMenu}>
+                            <BiMenu className="w-6 h-6 cursor-pointer" />
                         </span>
                     </div>
                 </div>

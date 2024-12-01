@@ -189,207 +189,124 @@ export const rejectDoctor = async (req, res) => {
     }
 };
 
+// Function to add a new time slot for a doctor
+// Add Time Slot
 export const addTimeSlot = async (req, res) => {
-    console.log("add time slot contoller reached");
-    console.log("time slot", req.body);
-    const doctorId = req.params.doctorId;
-    const { day, startTime, endTime } = req.body;
-
-    console.log("Incoming request to add a time slot for doctor:", doctorId);
-    console.log("Time slot details:", { day, startTime, endTime });
-
+    console.log("add slot controller reached");
+    console.log("Incoming request to add slot");
+    console.log("Request Body:", req.body); // This should not be undefined
+    console.log("Request Params:", req.params);
     try {
+        const { doctorId, day, startTime, endTime } = req.body; // Extract doctorId from the request body
+
+        if (!doctorId || !day || !startTime || !endTime) {
+            return res.status(400).json({ message: 'Doctor ID, day, start time, and end time are required.' });
+        }
+        console.log("Doctor found:", doctor);
+
+        // Validate 1-hour duration
+        const start = moment(startTime, "HH:mm");
+        const end = moment(endTime, "HH:mm");
+        if (!start.isValid() || !end.isValid() || end.diff(start, 'minutes') !== 60) {
+            return res.status(400).json({ message: 'Time slots must be exactly one hour long.' });
+        }
+
         const doctor = await Doctor.findById(doctorId);
-
         if (!doctor) {
-            console.error("Doctor not found for ID:", doctorId);
-            return res.status(404).json({
-                success: false,
-                message: "Doctor not found",
-            });
+            return res.status(404).json({ message: 'Doctor not found.' });
         }
 
-        console.log("Doctor found:", doctor.name);
-
-        // Check if a slot already exists on the same day with overlapping times
-        const overlappingSlot = doctor.timeSlots.find((slot) =>
-            slot.day === day &&
-            ((startTime >= slot.startTime && startTime < slot.endTime) ||
-                (endTime > slot.startTime && endTime <= slot.endTime))
-        );
-
-        if (overlappingSlot) {
-            console.warn("Overlapping time slot found:", overlappingSlot);
-            return res.status(400).json({
-                success: false,
-                message: "Time slot overlaps with an existing slot",
-            });
-        }
-
-        const newSlot = { day, startTime, endTime };
-        console.log("Adding new time slot:", newSlot);
-
-        doctor.timeSlots.push(newSlot);
-
+        const newSlot = { day, startTime, endTime, available: true };
+        doctor.timeSlots.push(newSlot); // Add to timeSlots array
         await doctor.save();
 
-        console.log("Time slot added successfully for doctor:", doctor.name);
-        res.status(200).json({
-            success: true,
-            message: "Time slot added successfully",
-            data: doctor.timeSlots,
-        });
+        console.log('Add Time Slot Controller Reached:', newSlot);
+        res.status(201).json({ message: 'Time slot added successfully.', timeSlots: doctor.timeSlots });
     } catch (error) {
-        console.error("Error adding time slot:", error);
-        res.status(500).json({
-            success: false,
-            message: "Failed to add time slot",
-            data: error.message,
-        });
+        console.error('Error adding time slot:', error);
+        res.status(500).json({ message: 'Internal server error.' });
     }
 };
+
+// Get Time Slots
 export const getTimeSlots = async (req, res) => {
-    console.log("get time slot controller reached");
-    const doctorId = req.params.doctorId;
-
-    console.log("Incoming request to get time slots for doctor:", doctorId);
-
     try {
+        const doctorId = req.user._id; // Extract doctor ID from token middleware
         const doctor = await Doctor.findById(doctorId);
 
         if (!doctor) {
-            console.error("Doctor not found for ID:", doctorId);
-            return res.status(404).json({
-                success: false,
-                message: "Doctor not found",
-            });
+            return res.status(404).json({ message: 'Doctor not found.' });
         }
 
-        console.log("Doctor found:", doctor.name);
-
-        // Return the time slots for the doctor
-        res.status(200).json({
-            success: true,
-            message: "Time slots fetched successfully",
-            data: doctor.timeSlots,
-        });
+        console.log('Get Time Slots Controller Reached:', doctor.timeSlots);
+        res.status(200).json({ timeSlots: doctor.timeSlots });
     } catch (error) {
-        console.error("Error fetching time slots:", error);
-        res.status(500).json({
-            success: false,
-            message: "Failed to fetch time slots",
-            data: error.message,
-        });
+        console.error('Error fetching time slots:', error);
+        res.status(500).json({ message: 'Internal server error.' });
     }
 };
 
-
-export const updateTimeSlot = async (req, res) => {
-    const doctorId = req.params.doctorId;
-    const { oldDay, oldStartTime, oldEndTime, day, startTime, endTime } = req.body;
-
-    console.log("Incoming request to update a time slot for doctor:", doctorId);
-    console.log("Old time slot:", { oldDay, oldStartTime, oldEndTime });
-    console.log("New time slot details:", { day, startTime, endTime });
-
-    try {
-        const doctor = await Doctor.findById(doctorId);
-
-        if (!doctor) {
-            console.error("Doctor not found for ID:", doctorId);
-            return res.status(404).json({
-                success: false,
-                message: "Doctor not found",
-            });
-        }
-
-        console.log("Doctor found:", doctor.name);
-
-        const slotIndex = doctor.timeSlots.findIndex((slot) =>
-            slot.day === oldDay &&
-            slot.startTime === oldStartTime &&
-            slot.endTime === oldEndTime
-        );
-
-        if (slotIndex === -1) {
-            console.warn("Time slot not found for update:", { oldDay, oldStartTime, oldEndTime });
-            return res.status(404).json({
-                success: false,
-                message: "Time slot not found",
-            });
-        }
-
-        console.log("Updating time slot at index:", slotIndex);
-
-        doctor.timeSlots[slotIndex] = { day, startTime, endTime };
-
-        await doctor.save();
-
-        console.log("Time slot updated successfully for doctor:", doctor.name);
-        res.status(200).json({
-            success: true,
-            message: "Time slot updated successfully",
-            data: doctor.timeSlots,
-        });
-    } catch (error) {
-        console.error("Error updating time slot:", error);
-        res.status(500).json({
-            success: false,
-            message: "Failed to update time slot",
-            data: error.message,
-        });
-    }
-};
-
+// Delete Time Slot
 export const deleteTimeSlot = async (req, res) => {
-    const doctorId = req.params.doctorId;
-    const { day, startTime, endTime } = req.body;
-
-    console.log("Incoming request to delete a time slot for doctor:", doctorId);
-    console.log("Time slot details:", { day, startTime, endTime });
-
     try {
+        const doctorId = req.user._id; // Extract doctor ID from token middleware
+        const { slotId } = req.params;
+
         const doctor = await Doctor.findById(doctorId);
-
         if (!doctor) {
-            return res.status(404).json({
-                success: false,
-                message: "Doctor not found",
-            });
+            return res.status(404).json({ message: 'Doctor not found.' });
         }
 
-        const slotIndex = doctor.timeSlots.findIndex(
-            (slot) =>
-                slot.day === day &&
-                slot.startTime === startTime &&
-                slot.endTime === endTime
-        );
-
+        const slotIndex = doctor.timeSlots.findIndex((slot) => slot._id.toString() === slotId);
         if (slotIndex === -1) {
-            return res.status(404).json({
-                success: false,
-                message: "Time slot not found",
-            });
+            return res.status(404).json({ message: 'Time slot not found.' });
         }
 
-        console.log("Deleting time slot at index:", slotIndex);
-
-        doctor.timeSlots.splice(slotIndex, 1); // Remove the time slot from the array
-
+        const removedSlot = doctor.timeSlots.splice(slotIndex, 1);
         await doctor.save();
 
-        console.log("Time slot deleted successfully for doctor:", doctor.name);
-        res.status(200).json({
-            success: true,
-            message: "Time slot deleted successfully",
-            data: doctor.timeSlots,
-        });
+        console.log('Delete Time Slot Controller Reached:', removedSlot);
+        res.status(200).json({ message: 'Time slot deleted successfully.', timeSlots: doctor.timeSlots });
     } catch (error) {
-        console.error("Error deleting time slot:", error);
-        res.status(500).json({
-            success: false,
-            message: "Failed to delete time slot",
-            data: error.message,
-        });
+        console.error('Error deleting time slot:', error);
+        res.status(500).json({ message: 'Internal server error.' });
+    }
+};
+
+// Update Time Slot
+export const updateTimeSlot = async (req, res) => {
+    try {
+        const { doctorId, day, startTime, endTime, available } = req.body; // Extract from the request body
+        const { slotId } = req.params;
+
+        if (!doctorId || !day || !startTime || !endTime || available === undefined) {
+            return res.status(400).json({ message: 'Doctor ID, day, start time, end time, and availability status are required.' });
+        }
+
+        // Validate 1-hour duration
+        const start = moment(startTime, "HH:mm");
+        const end = moment(endTime, "HH:mm");
+        if (!start.isValid() || !end.isValid() || end.diff(start, 'minutes') !== 60) {
+            return res.status(400).json({ message: 'Time slots must be exactly one hour long.' });
+        }
+
+        const doctor = await Doctor.findById(doctorId);
+        if (!doctor) {
+            return res.status(404).json({ message: 'Doctor not found.' });
+        }
+
+        const slotIndex = doctor.timeSlots.findIndex((slot) => slot._id.toString() === slotId);
+        if (slotIndex === -1) {
+            return res.status(404).json({ message: 'Time slot not found.' });
+        }
+
+        doctor.timeSlots[slotIndex] = { day, startTime, endTime, available }; // Update the slot
+        await doctor.save();
+
+        console.log('Update Time Slot Controller Reached:', doctor.timeSlots[slotIndex]);
+        res.status(200).json({ message: 'Time slot updated successfully.', timeSlots: doctor.timeSlots });
+    } catch (error) {
+        console.error('Error updating time slot:', error);
+        res.status(500).json({ message: 'Internal server error.' });
     }
 };

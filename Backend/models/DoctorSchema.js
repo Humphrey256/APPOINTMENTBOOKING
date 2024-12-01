@@ -43,11 +43,11 @@ const DoctorSchema = new mongoose.Schema({
   // Updated timeSlots field with startTime, endTime, and availability
   timeSlots: [
     {
-      day: { type: String, required: true },  // Day of the week (e.g., 'Monday')
-      startTime: { type: Date, required: true }, // Start time of the slot (e.g., '10:00 AM')
-      endTime: { type: Date, required: true }, // End time (1 hour later)
-      available: { type: Boolean, default: true }, // Availability status (true or false)
-    },
+      day: String,
+      startTime: String,
+      endTime: String,
+      available: { type: Boolean, default: true }
+    }
   ],
 
   reviews: [{ type: mongoose.Types.ObjectId, ref: "Review" }],
