@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { Link } from 'react-router-dom';
 
+=======
+import React from 'react'
+import { Link } from 'react-router-dom';
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 import aboutImg from '../../assets/images/imageicon.jpg';
 //import aboutCardImg from '../../assets/images/image8.jpg';
 

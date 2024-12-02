@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 //import React from 'react'
+=======
+import React from 'react'
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 
 import icon01 from '../assets/images/logo.webp'
 import icon02 from '../assets/images/imageicon2.jpg'

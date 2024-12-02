@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useState, useEffect } from 'react';
+=======
+import React, { useState, useEffect } from 'react';
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -7,6 +11,10 @@ const AdminDashboard = () => {
     const [patients, setPatients] = useState([]);
     const [appointments, setAppointments] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
+<<<<<<< HEAD
+=======
+    console.log('AdminDashboard component loaded');
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 
     // Fetch all doctors, patients, and appointments
     const fetchDoctors = async () => {

@@ -7,9 +7,15 @@ import {
     approveDoctor, // Import the approveDoctor function
     rejectDoctor,
     addTimeSlot, // Import the addTimeSlot function
+<<<<<<< HEAD
     updateTimeSlot, // Import the updateTimeSlot function
     deleteTimeSlot, // Import the deleteTimeSlot function
     getTimeSlots
+=======
+    getTimeSlots,
+    updateTimeSlot, // Import the updateTimeSlot function
+    deleteTimeSlot // Import the deleteTimeSlot function
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 } from "../controllers/doctorController.js";
 
 import reviewRouter from "./reviewRoute.js";
@@ -41,6 +47,7 @@ router.patch("/approve/:doctorId", (req, res, next) => {
 router.delete("/reject/:doctorId", rejectDoctor);
 
 // Add a time slot to a doctor (POST method)
+<<<<<<< HEAD
 router.post('/timeSlots/add/:doctorId', addTimeSlot);
 router.get('/timeSlots/:doctorId', getTimeSlots)
 
@@ -49,5 +56,15 @@ router.put('/timeSlots/:slotId', updateTimeSlot);
 
 // Delete a doctor's time slot (DELETE method)
 router.delete('/timeSlots/:slotId', deleteTimeSlot);
+=======
+router.post("/:doctorId/timeSlots", addTimeSlot);
+router.get("/timeSlots/:doctorId", getTimeSlots);
+
+// Update a doctor's time slot (PUT method)
+router.put("/:doctorId/timeSlots", updateTimeSlot);
+
+// Delete a doctor's time slot (DELETE method)
+router.delete("/:doctorId/timeSlots", deleteTimeSlot);
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 
 export default router;

@@ -2,17 +2,29 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+<<<<<<< HEAD
+=======
+  "type": "module",
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "autoprefixer": "^10.4.20",
+<<<<<<< HEAD
+=======
+    "express": "^4.18.0",
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
     "postcss": "^8.4.47",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.3.0",
     "react-router-dom": "^6.27.0",
+<<<<<<< HEAD
     "react-scripts": "5.0.1",
+=======
+    "react-scripts": "^3.0.1",
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
     "react-toastify": "^10.0.6",
     "socket.io-client": "^4.8.1",
     "swiper": "^11.1.14",
@@ -21,10 +33,18 @@
   },
   "scripts": {
     "dev": "vite",
+<<<<<<< HEAD
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+=======
+    "start": "vite preview",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Testing not configured\" && exit 1",
+    "eject": "echo \"Eject is not supported with Vite\" && exit 1"
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
   },
   "eslintConfig": {
     "extends": [
@@ -45,7 +65,19 @@
     ]
   },
   "devDependencies": {
+<<<<<<< HEAD
     "eslint-plugin-react-refresh": "^0.4.14",
     "vite": "^5.4.10"
   }
 }
+=======
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint-plugin-react-refresh": "^0.4.14",
+    "vite": "^6.0.1"
+  },
+  "engines": {
+    "node": "20.x"
+  }
+}
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3

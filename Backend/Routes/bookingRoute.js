@@ -4,9 +4,15 @@ import {
     getUserBookings,
     getDoctorBookings,
     updateBookingStatus,
+<<<<<<< HEAD
     confirmBooking,
     rescheduleBooking,
     clearBookingHistory,
+=======
+    confirmbooking,
+    reschedulebooking,
+    clearbookingHistory,
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
     getAllBookings, // Add this import for getting all bookings
 } from "../controllers/bookingController.js";
 
@@ -28,6 +34,7 @@ router.get("/", getAllBookings);  // New route to get all bookings
 router.patch("/update/:bookingId", updateBookingStatus);  // Keep the route to update status
 
 // Confirm appointment
+<<<<<<< HEAD
 router.patch("/confirm/:bookingId", confirmBooking);  // This route remains the same
 
 // Reschedule appointment
@@ -35,5 +42,14 @@ router.patch("/reschedule/:bookingId", rescheduleBooking);  // This route remain
 
 // Clear appointment history for a specific doctor
 router.delete("/clearhistory/:doctorId", clearBookingHistory);
+=======
+router.patch("/confirm/:bookingId", confirmbooking);  // This route remains the same
+
+// Reschedule appointment
+router.patch("/reschedule/:bookingId", reschedulebooking);  // This route remains the same
+
+// Clear appointment history for a specific doctor
+router.delete("/clearhistory/:doctorId", clearbookingHistory);
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 
 export default router;

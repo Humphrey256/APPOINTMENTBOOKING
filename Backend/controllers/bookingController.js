@@ -9,11 +9,19 @@ export const createBooking = async (req, res) => {
     console.log("Booking controller reached");
 
     try {
+<<<<<<< HEAD
         const { doctorId, userId, time, reason, patientName, phoneNumber } = req.body;
 
         console.log("Booking request received:", req.body);
 
         if (!doctorId || !userId || !time || !reason || !patientName || !phoneNumber) {
+=======
+        const { doctorId, userId, bookingDate, time, reason, patientName, phoneNumber } = req.body;
+
+        console.log("Booking request received:", req.body);
+
+        if (!doctorId || !userId || !bookingDate || !time || !reason || !patientName || !phoneNumber) {
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
             return res.status(400).json({ message: "Missing required fields" });
         }
 
@@ -32,11 +40,19 @@ export const createBooking = async (req, res) => {
         const newBooking = new Booking({
             doctor: doctorId,
             user: userId,
+<<<<<<< HEAD
+=======
+            bookingDate,
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
             time,
             reason,
             patientName,
             phoneNumber,
+<<<<<<< HEAD
             status: 'Pending' // Default status
+=======
+            status: 'pending' // Default status
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
         });
 
         const savedBooking = await newBooking.save();
@@ -50,13 +66,21 @@ export const createBooking = async (req, res) => {
         // Send notification to the doctor
         sendNotification(
             doctor.email,
+<<<<<<< HEAD
             `New booking request from ${patientName}. Scheduled for ${new Date().toLocaleString()} at ${time}.`
+=======
+            `New booking request from ${patientName}. Scheduled for ${new Date(bookingDate).toLocaleString()} at ${time}.`
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
         );
 
         // Send notification to the user (patient)
         sendNotification(
             user.email,
+<<<<<<< HEAD
             `Your booking request with Dr. ${doctor.name} is pending confirmation. Scheduled for ${new Date().toLocaleString()} at ${time}.`
+=======
+            `Your booking request with Dr. ${doctor.name} is pending confirmation. Scheduled for ${new Date(bookingDate).toLocaleString()} at ${time}.`
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
         );
 
         res.status(201).json({ message: "Booking created successfully", booking: savedBooking });
@@ -67,12 +91,20 @@ export const createBooking = async (req, res) => {
 };
 
 // Confirm the booking
+<<<<<<< HEAD
 export const confirmBooking = async (req, res) => {
+=======
+export const confirmbooking = async (req, res) => {
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
     const { bookingId } = req.params;
 
     try {
         const booking = await Booking.findById(bookingId).populate("doctor");
+<<<<<<< HEAD
         if (!booking) return res.status(404).json({ message: "Booking not found" });
+=======
+        if (!booking) return res.status(404).json({ message: "booking not found" });
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 
         // Confirm the booking by changing the status
         booking.status = 'confirmed';
@@ -91,11 +123,19 @@ export const confirmBooking = async (req, res) => {
         if (booking.doctor) {
             sendNotification(
                 booking.doctor.email,
+<<<<<<< HEAD
                 `Booking with ${booking.patientName} has been confirmed. Scheduled on ${new Date(booking.bookingDate).toLocaleString()} at ${booking.time}.`
             );
         }
 
         res.status(200).json({ message: "Booking confirmed successfully", booking });
+=======
+                `booking with ${booking.patientName} has been confirmed. Scheduled on ${new Date(booking.bookingDate).toLocaleString()} at ${booking.time}.`
+            );
+        }
+
+        res.status(200).json({ message: "booking confirmed successfully", booking });
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
     } catch (error) {
         console.error("Error confirming booking:", error);
         res.status(500).json({ message: "Failed to confirm booking" });
@@ -117,7 +157,10 @@ export const getUserBookings = async (req, res) => {
         res.status(500).json({ message: "Failed to retrieve bookings" });
     }
 };
+<<<<<<< HEAD
 
+=======
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 // Get all bookings for a specific doctor
 export const getDoctorBookings = async (req, res) => {
 
@@ -152,6 +195,7 @@ export const getDoctorBookings = async (req, res) => {
 };
 
 // Reschedule the booking
+<<<<<<< HEAD
 export const rescheduleBooking = async (req, res) => {
     const { bookingId } = req.params;
     const { newTime } = req.body;
@@ -164,6 +208,21 @@ export const rescheduleBooking = async (req, res) => {
         await booking.save();
 
         res.status(200).json({ message: "Booking rescheduled successfully", booking });
+=======
+export const reschedulebooking = async (req, res) => {
+    const { bookingId } = req.params;
+    const { newDate, newTime } = req.body;
+
+    try {
+        const booking = await Booking.findById(bookingId);
+        if (!booking) return res.status(404).json({ message: "booking not found" });
+
+        booking.bookingDate = newDate;
+        booking.time = newTime;
+        await booking.save();
+
+        res.status(200).json({ message: "booking rescheduled successfully", booking });
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
     } catch (error) {
         res.status(500).json({ message: "Failed to reschedule booking" });
     }
@@ -212,7 +271,11 @@ export const updateBookingStatus = async (req, res) => {
 };
 
 // Clear booking history for a specific doctor
+<<<<<<< HEAD
 export const clearBookingHistory = async (req, res) => {
+=======
+export const clearbookingHistory = async (req, res) => {
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
     console.log("Clear booking History controller reached");
 
     const { doctorId } = req.params;
@@ -231,7 +294,11 @@ export const clearBookingHistory = async (req, res) => {
             return res.status(404).json({ message: "No bookings found for this doctor" });
         }
 
+<<<<<<< HEAD
         res.status(200).json({ message: "Booking history cleared successfully" });
+=======
+        res.status(200).json({ message: "booking history cleared successfully" });
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
     } catch (error) {
         console.error("Error clearing booking history:", error);
         res.status(500).json({ message: "Failed to clear booking history" });
@@ -257,7 +324,12 @@ export const getAllBookings = async (req, res) => {
             bookings,
         });
     } catch (error) {
+<<<<<<< HEAD
         console.error("Error fetching all bookings:", error);
         res.status(500).json({ message: "Failed to fetch all bookings" });
+=======
+        console.error("Error fetching bookings:", error);
+        res.status(500).json({ message: "Failed to retrieve bookings" });
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
     }
 };

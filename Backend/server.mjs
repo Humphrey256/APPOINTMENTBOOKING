@@ -13,7 +13,11 @@ import authRoute from "./Routes/authRoute.js"; // Ensure this path is correct
 import userRoute from "./Routes/userRoute.js";
 import doctorRoute from "./Routes/doctorRoute.js";
 import reviewRoute from "./Routes/reviewRoute.js";
+<<<<<<< HEAD
 import bookingRoutes from './Routes/bookingRoute.js'; // Adjust the path as necessary
+=======
+import bookingRoutes from './Routes/bookingRoute.js'; 
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 
 // Config
 dotenv.config();
@@ -43,7 +47,11 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 //app.use(cors(corsOptions));
 app.use(cors({
+<<<<<<< HEAD
     origin: 'http://localhost:3000',  // Allowing front-end origin
+=======
+    origin: 'https://appointmentbooking-4.onrender.com',  // Allowing front-end origin
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],  // Allowing required HTTP methods
     allowedHeaders: ['Content-Type', 'Authorization'],  // Allowing necessary headers
 }));

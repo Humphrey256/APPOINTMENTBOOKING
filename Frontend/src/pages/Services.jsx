@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import React from 'react'
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 import ServiceCard from '../components/Services/ServiceCard'
 import { services } from '../assets/data/services'
 

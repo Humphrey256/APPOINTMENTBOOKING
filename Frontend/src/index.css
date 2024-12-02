@@ -25,6 +25,7 @@
     @apply text-[18px] leading-[30px] font-[400] text-textColor mt-[18px];
   }
 
+<<<<<<< HEAD
   /* Initial Header - Blue Background */
   .header {
     @apply bg-[#0047ab] text-white w-full h-[100px] leading-[100px] transition-all duration-300 ease-in-out;
@@ -45,6 +46,28 @@
   .nav__link-scrolled {
     @apply text-black font-medium hover:text-gray-600 transition-colors duration-300;
   }
+=======
+ /* Initial Header - Blue Background */
+.header {
+  @apply bg-[#0047ab] text-white w-full h-[100px] leading-[100px] transition-all duration-300 ease-in-out;
+}
+
+/* Scrolled Header - White Background and Shadow */
+.scrolled {
+  @apply bg-white shadow-md;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Initial Navigation Link Style - White */
+.nav__link-initial {
+  @apply text-white font-medium hover:text-gray-200 transition-colors duration-300;
+}
+
+/* Scrolled Navigation Link Style - Black */
+.nav__link-scrolled {
+  @apply text-black font-medium hover:text-gray-600 transition-colors duration-300;
+}
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 
   .hero__section {
     @apply bg-[url('./assets/images/homebg.jpg')] bg-no-repeat bg-center bg-cover;
@@ -82,4 +105,8 @@
   .text__para {
     @apply text-[16px] leading-7 mt-3;
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3

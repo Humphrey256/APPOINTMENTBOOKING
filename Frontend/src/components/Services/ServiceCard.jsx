@@ -1,4 +1,8 @@
 /* eslint-disable react/prop-types */
+<<<<<<< HEAD
+=======
+import React from 'react'
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 import { BsArrowRight } from 'react-icons/bs'
 import { Link } from 'react-router-dom'
 

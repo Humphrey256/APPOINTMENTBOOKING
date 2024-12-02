@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useEffect, useRef, useState } from 'react';
+=======
+import { React, useEffect, useRef, useState } from 'react';
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 import { NavLink, Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import userImg from '../../assets/images/avatar.png';
@@ -50,6 +54,7 @@ const Header = () => {
     };
 
     return (
+<<<<<<< HEAD
         <header
             className="header flex items-center"
             ref={headerRef}
@@ -75,6 +80,13 @@ const Header = () => {
                                 objectFit: 'contain',
                             }}
                         />
+=======
+        <header className="header flex items-center" ref={headerRef}>
+            <div className="container">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <img src={logo} alt="" className="logo" />
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
                     </div>
                     <div className="navigation" ref={menuRef} onClick={toggleMenu}>
                         <ul className="menu flex items-center gap-[2.7rem]">
@@ -90,6 +102,7 @@ const Header = () => {
                             ))}
                         </ul>
                     </div>
+<<<<<<< HEAD
                     <div className="flex items-center gap-4">
                         <div className="hidden">
                             <Link to="/">
@@ -99,25 +112,46 @@ const Header = () => {
                                         className="w-full rounded-full"
                                         alt="User Avatar"
                                     />
+=======
+                    <div className='flex items-center gap-4'>
+                        <div className='hidden'>
+                            <Link to='/'>
+                                <figure className='w-[35px] h-[35px] rounded-full cursor-pointer'>
+                                    <img src={userImg} className='w-full rounded-full' alt="" />
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
                                 </figure>
                             </Link>
                         </div>
                         {!isAuthenticated ? (
+<<<<<<< HEAD
                             <Link to="/login">
                                 <button className="bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]">
+=======
+                            <Link to='/login'>
+                                <button className='bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]'>
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
                                     Login
                                 </button>
                             </Link>
                         ) : (
                             <button
                                 onClick={handleLogout}
+<<<<<<< HEAD
                                 className="bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]"
+=======
+                                className='bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]'
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
                             >
                                 Logout
                             </button>
                         )}
+<<<<<<< HEAD
                         <span className="md:hidden" onClick={toggleMenu}>
                             <BiMenu className="w-6 h-6 cursor-pointer" />
+=======
+                        <span className='md:hidden' onClick={toggleMenu}>
+                            <BiMenu className='w-6 h-6 cursor-pointer' />
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
                         </span>
                     </div>
                 </div>

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useState, useEffect } from 'react';
+=======
+import {React, useState, useEffect } from 'react';
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 import DoctorCard from './DoctorCard';
 
 function DoctorList() {

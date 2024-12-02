@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useState } from 'react'
+=======
+import { React, useState } from 'react'
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 import doctorImg from '../../assets/images/doctor1.png'
 import starIcon from '../../assets/images/eagle.jpg'
 import DoctorAbout from './DoctorAbout'

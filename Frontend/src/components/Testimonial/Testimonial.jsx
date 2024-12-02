@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 //import React from 'react'; // Uncomment this if not already imported
+=======
+import React from 'react'; // Uncomment this if not already imported
+>>>>>>> bfee5f250fffeb4e5d8be21b911feedbe1ecbad3
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
