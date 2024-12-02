@@ -6,12 +6,12 @@ const PatientDashboard = () => {
     const [formData, setFormData] = useState({
         patientName: '',
         phoneNumber: '',
-        appointmentDate: '',
         time: '',
         reason: '',
         doctorId: '',
         userId: '',
     });
+    
 
     const [timeSlots, setTimeSlots] = useState([]);
     const [selectedDoctor, setSelectedDoctor] = useState(null);
@@ -45,13 +45,14 @@ const PatientDashboard = () => {
                 fetchTimeSlots(confirmedDoctors[0]._id);
             }
         } catch (error) {
-            toast.error('Failed to fetch doctors. Please try again.', { position: 'top-center' });
+            toast.error('Failed to fetch doctors. Please try again.', { position: 'top-right' });
         }
     }, []);
 
     const fetchTimeSlots = async (doctorId) => {
+        console.log("Fetching time slots for doctor:", doctorId);
         try {
-            const response = await fetch(`http://localhost:5000/api/v1/doctors/${doctorId}/slots`, {
+            const response = await fetch(`http://localhost:5000/api/v1/doctors/timeSlots/${doctorId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
@@ -59,12 +60,24 @@ const PatientDashboard = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                setTimeSlots(data.slots);
+                console.log("Full response data:", data); // Log the full response for inspection
+                console.log("Fetched slots:", data.timeSlots); // Log the expected slots field
+
+                // Make sure you're correctly accessing the slots field based on the API response structure
+                if (data.timeSlots) {
+                    setTimeSlots(data.timeSlots);
+                } else {
+                    console.log("Slots field not found in the response.");
+                    setTimeSlots([]);
+                }
             } else {
-                toast.error('Failed to fetch available time slots.', { position: 'top-center' });
+                console.log("Failed to fetch time slots.");
+                setTimeSlots([]);
+                toast.error('Failed to fetch available time slots.', { position: 'top-right' });
             }
         } catch (error) {
-            toast.error('Error fetching time slots. Please try again.', { position: 'top-center' });
+            console.log("Error fetching time slots:", error);
+            toast.error('Error fetching time slots. Please try again.', { position: 'top-right' });
         }
     };
 
@@ -115,7 +128,6 @@ const PatientDashboard = () => {
                 setFormData({
                     patientName: '',
                     phoneNumber: '',
-                    appointmentDate: '',
                     time: '',
                     reason: '',
                     doctorId: '',
@@ -210,14 +222,7 @@ const PatientDashboard = () => {
                                     className="w-full p-2 border-2 border-blue-500 rounded mt-2"
                                     required
                                 />
-                                <input
-                                    type="date"
-                                    name="appointmentDate"
-                                    value={formData.appointmentDate}
-                                    onChange={handleInputChange}
-                                    className="w-full p-2 border-2 border-blue-500 rounded mt-2"
-                                    required
-                                />
+
                                 <select
                                     name="time"
                                     value={formData.time}
@@ -226,12 +231,22 @@ const PatientDashboard = () => {
                                     required
                                 >
                                     <option value="">Select Time</option>
-                                    {timeSlots.map((slot) => (
-                                        <option key={slot} value={slot}>
-                                            {slot}
-                                        </option>
-                                    ))}
+                                    {Array.isArray(timeSlots) && timeSlots.length > 0 ? (
+                                        timeSlots.map((slot) => {
+                                            // Construct a string for the time using startTime and endTime
+                                            const time = `${slot.startTime} - ${slot.endTime}`;
+                                            return (
+                                                <option key={slot._id} value={time}>
+                                                    {time} ({slot.day})
+                                                </option>
+                                            );
+                                        })
+                                    ) : (
+                                        <option value="">No available times</option>
+                                    )}
                                 </select>
+
+
                                 <textarea
                                     name="reason"
                                     placeholder="Reason for Appointment"

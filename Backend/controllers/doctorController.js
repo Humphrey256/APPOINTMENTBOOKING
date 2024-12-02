@@ -1,4 +1,7 @@
+import moment from 'moment';
+
 import Doctor from "../models/DoctorSchema.js"; // Import the Doctor model
+
 
 export const updateDoctor = async (req, res) => {
     const doctorId = req.params.doctorId;
@@ -194,44 +197,71 @@ export const rejectDoctor = async (req, res) => {
 export const addTimeSlot = async (req, res) => {
     console.log("add slot controller reached");
     console.log("Incoming request to add slot");
-    console.log("Request Body:", req.body); // This should not be undefined
+    console.log("Request Body:", req.body);
     console.log("Request Params:", req.params);
-    try {
-        const { doctorId, day, startTime, endTime } = req.body; // Extract doctorId from the request body
 
+    try {
+        const doctorId = req.params.doctorId;
+        const { day, startTime, endTime } = req.body;
+
+        // Basic validation for required fields
         if (!doctorId || !day || !startTime || !endTime) {
+            console.log("Validation failed: Missing required fields");
             return res.status(400).json({ message: 'Doctor ID, day, start time, and end time are required.' });
         }
-        console.log("Doctor found:", doctor);
 
-        // Validate 1-hour duration
-        const start = moment(startTime, "HH:mm");
-        const end = moment(endTime, "HH:mm");
-        if (!start.isValid() || !end.isValid() || end.diff(start, 'minutes') !== 60) {
+        // Validate that the start time and end time are in the correct format and the slot is exactly 1 hour
+        const start = moment(startTime, "HH:mm"); // strict parsing to ensure exact format
+        const end = moment(endTime, "HH:mm"); // strict parsing to ensure exact format
+
+        if (!start.isValid() || !end.isValid()) {
+            console.log("Validation failed: Invalid time format");
+            return res.status(400).json({ message: 'Start time and end time must be valid and in the format HH:mm.' });
+        }
+
+        // Check if the time slot is exactly 1 hour long
+        if (end.diff(start, 'minutes') !== 60) {
+            console.log("Validation failed: Time slot is not exactly one hour");
             return res.status(400).json({ message: 'Time slots must be exactly one hour long.' });
         }
 
+        // Retrieve the doctor from the database
         const doctor = await Doctor.findById(doctorId);
         if (!doctor) {
+            console.log("Doctor not found with ID:", doctorId);
             return res.status(404).json({ message: 'Doctor not found.' });
         }
 
+        // Check if the doctor already has a time slot at the requested time
+        const existingSlot = doctor.timeSlots.find(slot => slot.day === day && slot.startTime === startTime);
+        if (existingSlot) {
+            console.log(`Time slot conflict: Doctor already has a slot on ${day} at ${startTime}`);
+            return res.status(409).json({ message: `Time slot on ${day} at ${startTime} already exists.` });
+        }
+
+        // Create the new time slot object
         const newSlot = { day, startTime, endTime, available: true };
-        doctor.timeSlots.push(newSlot); // Add to timeSlots array
+        doctor.timeSlots.push(newSlot);
+
+        // Save the updated doctor document with the new time slot
         await doctor.save();
 
-        console.log('Add Time Slot Controller Reached:', newSlot);
-        res.status(201).json({ message: 'Time slot added successfully.', timeSlots: doctor.timeSlots });
+        console.log('Time slot added successfully:', newSlot);
+        console.log("Updated time slots:", doctor.timeSlots);
+
+        // Return a success response
+        return res.status(200).json({ message: 'Time slot added successfully.', timeSlots: doctor.timeSlots });
+
     } catch (error) {
         console.error('Error adding time slot:', error);
-        res.status(500).json({ message: 'Internal server error.' });
+        return res.status(500).json({ message: 'Internal server error.' });
     }
 };
 
 // Get Time Slots
 export const getTimeSlots = async (req, res) => {
     try {
-        const doctorId = req.user._id; // Extract doctor ID from token middleware
+        const doctorId = req.params.doctorId || req.body._id; // Extract doctor ID from token middleware
         const doctor = await Doctor.findById(doctorId);
 
         if (!doctor) {
@@ -249,7 +279,7 @@ export const getTimeSlots = async (req, res) => {
 // Delete Time Slot
 export const deleteTimeSlot = async (req, res) => {
     try {
-        const doctorId = req.user._id; // Extract doctor ID from token middleware
+        const doctorId = req.params.doctorId || req.body._id; // Extract doctor ID from token middleware
         const { slotId } = req.params;
 
         const doctor = await Doctor.findById(doctorId);

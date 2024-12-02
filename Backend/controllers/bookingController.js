@@ -9,11 +9,11 @@ export const createBooking = async (req, res) => {
     console.log("Booking controller reached");
 
     try {
-        const { doctorId, userId, bookingDate, time, reason, patientName, phoneNumber } = req.body;
+        const { doctorId, userId, time, reason, patientName, phoneNumber } = req.body;
 
         console.log("Booking request received:", req.body);
 
-        if (!doctorId || !userId || !bookingDate || !time || !reason || !patientName || !phoneNumber) {
+        if (!doctorId || !userId || !time || !reason || !patientName || !phoneNumber) {
             return res.status(400).json({ message: "Missing required fields" });
         }
 
@@ -32,12 +32,11 @@ export const createBooking = async (req, res) => {
         const newBooking = new Booking({
             doctor: doctorId,
             user: userId,
-            bookingDate,
             time,
             reason,
             patientName,
             phoneNumber,
-            status: 'pending' // Default status
+            status: 'Pending' // Default status
         });
 
         const savedBooking = await newBooking.save();
@@ -51,13 +50,13 @@ export const createBooking = async (req, res) => {
         // Send notification to the doctor
         sendNotification(
             doctor.email,
-            `New booking request from ${patientName}. Scheduled for ${new Date(bookingDate).toLocaleString()} at ${time}.`
+            `New booking request from ${patientName}. Scheduled for ${new Date().toLocaleString()} at ${time}.`
         );
 
         // Send notification to the user (patient)
         sendNotification(
             user.email,
-            `Your booking request with Dr. ${doctor.name} is pending confirmation. Scheduled for ${new Date(bookingDate).toLocaleString()} at ${time}.`
+            `Your booking request with Dr. ${doctor.name} is pending confirmation. Scheduled for ${new Date().toLocaleString()} at ${time}.`
         );
 
         res.status(201).json({ message: "Booking created successfully", booking: savedBooking });
@@ -68,12 +67,12 @@ export const createBooking = async (req, res) => {
 };
 
 // Confirm the booking
-export const confirmbooking = async (req, res) => {
+export const confirmBooking = async (req, res) => {
     const { bookingId } = req.params;
 
     try {
         const booking = await Booking.findById(bookingId).populate("doctor");
-        if (!booking) return res.status(404).json({ message: "booking not found" });
+        if (!booking) return res.status(404).json({ message: "Booking not found" });
 
         // Confirm the booking by changing the status
         booking.status = 'confirmed';
@@ -92,11 +91,11 @@ export const confirmbooking = async (req, res) => {
         if (booking.doctor) {
             sendNotification(
                 booking.doctor.email,
-                `booking with ${booking.patientName} has been confirmed. Scheduled on ${new Date(booking.bookingDate).toLocaleString()} at ${booking.time}.`
+                `Booking with ${booking.patientName} has been confirmed. Scheduled on ${new Date(booking.bookingDate).toLocaleString()} at ${booking.time}.`
             );
         }
 
-        res.status(200).json({ message: "booking confirmed successfully", booking });
+        res.status(200).json({ message: "Booking confirmed successfully", booking });
     } catch (error) {
         console.error("Error confirming booking:", error);
         res.status(500).json({ message: "Failed to confirm booking" });
@@ -118,6 +117,7 @@ export const getUserBookings = async (req, res) => {
         res.status(500).json({ message: "Failed to retrieve bookings" });
     }
 };
+
 // Get all bookings for a specific doctor
 export const getDoctorBookings = async (req, res) => {
 
@@ -152,19 +152,18 @@ export const getDoctorBookings = async (req, res) => {
 };
 
 // Reschedule the booking
-export const reschedulebooking = async (req, res) => {
+export const rescheduleBooking = async (req, res) => {
     const { bookingId } = req.params;
-    const { newDate, newTime } = req.body;
+    const { newTime } = req.body;
 
     try {
         const booking = await Booking.findById(bookingId);
-        if (!booking) return res.status(404).json({ message: "booking not found" });
+        if (!booking) return res.status(404).json({ message: "Booking not found" });
 
-        booking.bookingDate = newDate;
         booking.time = newTime;
         await booking.save();
 
-        res.status(200).json({ message: "booking rescheduled successfully", booking });
+        res.status(200).json({ message: "Booking rescheduled successfully", booking });
     } catch (error) {
         res.status(500).json({ message: "Failed to reschedule booking" });
     }
@@ -213,7 +212,7 @@ export const updateBookingStatus = async (req, res) => {
 };
 
 // Clear booking history for a specific doctor
-export const clearbookingHistory = async (req, res) => {
+export const clearBookingHistory = async (req, res) => {
     console.log("Clear booking History controller reached");
 
     const { doctorId } = req.params;
@@ -232,7 +231,7 @@ export const clearbookingHistory = async (req, res) => {
             return res.status(404).json({ message: "No bookings found for this doctor" });
         }
 
-        res.status(200).json({ message: "booking history cleared successfully" });
+        res.status(200).json({ message: "Booking history cleared successfully" });
     } catch (error) {
         console.error("Error clearing booking history:", error);
         res.status(500).json({ message: "Failed to clear booking history" });
@@ -258,7 +257,7 @@ export const getAllBookings = async (req, res) => {
             bookings,
         });
     } catch (error) {
-        console.error("Error fetching bookings:", error);
-        res.status(500).json({ message: "Failed to retrieve bookings" });
+        console.error("Error fetching all bookings:", error);
+        res.status(500).json({ message: "Failed to fetch all bookings" });
     }
 };
